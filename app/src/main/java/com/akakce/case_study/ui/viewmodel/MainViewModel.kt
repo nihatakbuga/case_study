@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.akakce.case_study.data.model.Product
 import com.akakce.case_study.data.repository.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,22 +25,19 @@ class MainViewModel @Inject constructor(
     private val _loading = MutableLiveData<Boolean>()
     val loading = _loading
 
-    private fun fetchHorizontalProducts() {
+
+    private fun fetchAllProducts() {
         viewModelScope.launch {
             _loading.value = true
-            _horizontalProducts.value = repository.getLimitedProducts(5)
+            val allProductsResult = async { repository.getProducts() }
+            val horizontalProductsResult = async { repository.getLimitedProducts(5) }
+            products.value = allProductsResult.await()
+            _horizontalProducts.value = horizontalProductsResult.await()
             _loading.value = false
         }
     }
 
-    private fun fetchAllProducts() {
-        viewModelScope.launch {
-            products.value = repository.getProducts()
-        }
-    }
-
     init {
-        fetchHorizontalProducts()
         fetchAllProducts()
     }
 }

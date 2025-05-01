@@ -24,22 +24,15 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MainViewModel by viewModels()
+    private lateinit var productAdapter: ProductListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
         observeViewModel()
 
-    }
-
-    override fun onWindowFocusChanged(hasFocus: Boolean) {
-        super.onWindowFocusChanged(hasFocus)
-        if (hasFocus) {
-
-        }
     }
 
     private fun observeViewModel() {
@@ -77,16 +70,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView(products: List<Product>) {
-        val adapter = ProductListAdapter(products) { selectedProduct ->
-            val fragment = ProductDetailFragment.newInstance(selectedProduct.id)
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.main, fragment)
-                .addToBackStack(null)
-                .commit()
-
+        if (!::productAdapter.isInitialized) {
+            productAdapter = ProductListAdapter(products) { selectedProduct ->
+                val fragment = ProductDetailFragment.newInstance(selectedProduct.id)
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.main, fragment)
+                    .addToBackStack(null)
+                    .commit()
+            }
+            binding.productRecyclerView.layoutManager = GridLayoutManager(this, 2)
+            binding.productRecyclerView.adapter = productAdapter
+        } else {
+            productAdapter.updateData(products)
         }
-        binding.productRecyclerView.layoutManager = GridLayoutManager(this, 2)
-        binding.productRecyclerView.adapter = adapter
     }
 
 

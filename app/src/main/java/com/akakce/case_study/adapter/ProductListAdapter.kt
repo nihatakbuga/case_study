@@ -13,7 +13,7 @@ import java.text.NumberFormat
 import java.util.*
 
 class ProductListAdapter(
-    private val productList: List<Product>,
+    private var productList: List<Product>,
     private val onItemClick: (Product) -> Unit
 ) : RecyclerView.Adapter<ProductListAdapter.ProductViewHolder>() {
 
@@ -48,6 +48,12 @@ class ProductListAdapter(
             onItemClick(product)
         }
     }
+
+    fun updateData(newProducts: List<Product>) {
+        this.productList = newProducts
+        notifyDataSetChanged()
+    }
+
 
     override fun getItemCount(): Int = productList.size
 }
