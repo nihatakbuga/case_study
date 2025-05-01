@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Case Study</string>
+    <string name="welcome">Hoş geldiniz! Size en iyi deneyimi sunmak için buradayız.</string>
+    <string name="check_internet_connection">Bağlantı sorunları yaşıyor olabilirsiniz. Lütfen internet erişiminizi kontrol edin.</string>
+    <string name="server_error">Sunucu ile iletişimde bir sorun oluştu (%1$d). Daha sonra tekrar deneyin veya destek ekibimize ulaşın.</string>
+    <string name="unknown_error">Beklenmedik bir hata meydana geldi. Sorunu araştırıyoruz, lütfen birazdan tekrar deneyin.</string>
+    <string name="product_list">Ürünlerimiz</string>
+    <string name="product_detail_not_found">Üzgünüz, şu anda ürün detayları görüntülenemiyor. Lütfen daha sonra tekrar deneyin.</string>
+    <string name="product_list_not_found">Üzgünüz, ürün listesi yüklenemedi. Bağlantınızı kontrol edin veya sayfayı yenileyin.</string>
+</resources>
